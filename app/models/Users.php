@@ -126,4 +126,15 @@ class Users extends \Phalcon\Mvc\Model
         }
     }
 
+    public static function getTeamMembers($team_id)
+    {
+        return self::find([
+            'team_id = {team} and rule_id = {rule}',
+            'bind' => [
+                'team' => $team_id,
+                'rule' => Rules::member()
+            ]
+        ]);
+    }
+
 }

@@ -7,13 +7,18 @@
 <div class="page-header">
     <?php echo $this->getContent(); ?>
     <h1>
-        Your Overtime
+        {% if session.get('user').rule_id === teamLeaderRule %}
+            {% if teamMember is defined %}
+                {{ teamMember.name }}'s Overtime Records
+            {% else %}
+                Team member overtime records
+            {% endif %}
+        {% elseif session.get('user').rule_id === memberRule %}
+            Your Overtime
+        {% endif %}
     </h1>
-    <p>
-        <?php echo $this->tag->linkTo(array("userovertime/new", "Create user_overtime")) ?>
-    </p>
 </div>
-<table class="table table-bordered">
+<table class="table table-bordered" style="text-align: center;">
     <thead>
     <tr>
         <th>date</th>
@@ -22,9 +27,9 @@
         <th>Overtime Amount</th>
         <th>Overtime Unit</th>
         <th>Approved</th>
-        <th>Approved By</th>
-        <th>Approve Date</th>
-        <th></th>
+        <th>Approved/Rejected By</th>
+        <th>Approve/Reject Date</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -35,7 +40,7 @@
             </td>
             <td>{{ overtime.project_name }}</td>
             <td>
-                <?php echo date('Y-m-d', $overtime->created_at); ?>
+                <?php echo date('Y-m-d H:i', $overtime->created_at); ?>
             </td>
             <td>{{ overtime.overtime_amount }}</td>
             <td>{{ overtime.unit.name }}</td>
@@ -46,19 +51,40 @@
                 <i class="fa fa-close"></i>
                 {% endif %}
             </td>
-            <td>{{ overtime.approvedBy }}</td>
+            <td>
+                {% if overtime.approvedBy %}
+                    {{ overtime.approvedBy.name }}</td>
+                {% endif %}
             <td>
                 {% if overtime.approve_date !== null %}
-                <?php echo date('Y-m-d', $overtime->approve_date); ?>
+                <?php echo date('Y-m-d H:i', $overtime->approve_date); ?>
                 {% endif %}
             </td>
             <td>
-                <a href="{{ url('userovertime/delete/'~overtime.id) }}">
-                    <li class="fa fa-eraser"> &nbsp; Delete</li>
-                </a>|
-                <a href="{{ url('userovertime/edit/'~overtime.id) }}">
-                    <li class="fa fa-pencil"> &nbsp; edit</li>
-                </a>
+            {% if session.get('user').rule_id === memberRule %}
+                {% if overtime.approved != 1 %}
+                    <a class="btn btn-primary" href="{{ url('userovertime/edit/'~overtime.id) }}">
+                        <li title="edit" class="fa fa-pencil"></li>
+                    </a>
+                    <a class="btn btn-danger" href="{{ url('userovertime/delete/'~overtime.id) }}">
+                        <li title="delete" class="fa fa-trash"></li>
+                    </a>
+                {% else %}
+                    <a class="btn btn-danger" href="#">
+                        <li class="fa fa-eye-slash"> no actions</li>
+                    </a>
+                {% endif %}
+            {% elseif session.get('user').rule_id === teamLeaderRule %}
+                {% if overtime.approved != 1 %}
+                    <a class="btn btn-success" href="{{ url('teamleader/approve/'~overtime.id) }}">
+                        <li title="approve" class="fa fa-check"></li>
+                    </a>
+                {% else %}
+                    <a class="btn btn-danger" href="{{ url('teamleader/reject/'~overtime.id) }}">
+                        <li title="reject" class="fa fa-close"></li>
+                    </a>
+                {% endif %}
+            {% endif %}
             </td>
         </tr>
     {% endfor %}

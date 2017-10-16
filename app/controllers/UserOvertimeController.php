@@ -9,11 +9,22 @@ class UserOvertimeController extends ControllerBase
     /**
      * Index action
      */
-    public function indexAction()
+    public function indexAction($user_id = null)
     {
         $this->persistent->parameters = null;
+//        $this->view->teamLeaderRule = Rules::teamLeader();
+//        $this->view->memberRule     = Rules::member();
 
-        $this->view->overtimes = $this->session->get('user')->overtimes;
+        if(!isset($user_id) && $this->session->get('user')->rule_id === Rules::member())
+        {
+            $this->view->overtimes = $this->session->get('user')->overtimes;
+        }
+        elseif(isset($user_id) && $this->session->get('user')->rule_id === Rules::teamLeader())
+        {
+            $user = Users::findFirst($user_id);
+            $this->view->overtimes = $user->overtimes;
+            $this->view->teamMember = $user;
+        }
     }
 
     /**
@@ -21,6 +32,12 @@ class UserOvertimeController extends ControllerBase
      */
     public function searchAction()
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
         $numberPage = 1;
         if ($this->request->isPost()) {
             $query = Criteria::fromInput($this->di, 'UserOvertime', $_POST);
@@ -61,6 +78,12 @@ class UserOvertimeController extends ControllerBase
      */
     public function newAction()
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
         $this->view->units = Units::find();
     }
 
@@ -71,6 +94,13 @@ class UserOvertimeController extends ControllerBase
      */
     public function editAction($id)
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
+
         if (!$this->request->isPost()) {
 
             $user_overtime = UserOvertime::findFirstByid($id);
@@ -86,19 +116,14 @@ class UserOvertimeController extends ControllerBase
             }
 
             $this->view->id = $user_overtime->id;
+            $this->view->units = Units::find();
+            $this->view->defaultUnit = $user_overtime->overtime_unit_id;
 
-            $this->tag->setDefault("id", $user_overtime->id);
-            $this->tag->setDefault("date", $user_overtime->date);
+            $this->tag->setDefault("date", date('Y-m-d', $user_overtime->date));
             $this->tag->setDefault("overtime_amount", $user_overtime->overtime_amount);
             $this->tag->setDefault("overtime_unit_id", $user_overtime->overtime_unit_id);
             $this->tag->setDefault("project_name", $user_overtime->project_name);
-            $this->tag->setDefault("user_id", $user_overtime->user_id);
-            $this->tag->setDefault("approved", $user_overtime->approved);
-            $this->tag->setDefault("approved_by", $user_overtime->approved_by);
-            $this->tag->setDefault("approve_date", $user_overtime->approve_date);
-            $this->tag->setDefault("created_at", $user_overtime->created_at);
-            $this->tag->setDefault("updated_at", $user_overtime->updated_at);
-            
+
         }
     }
 
@@ -107,6 +132,12 @@ class UserOvertimeController extends ControllerBase
      */
     public function createAction()
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
         if (!$this->request->isPost()) {
             $this->flash->error("Request Error!");
             return $this->response->redirect('userovertime/new');
@@ -130,7 +161,7 @@ class UserOvertimeController extends ControllerBase
             return $this->response->redirect('userovertime/new');
         }
 
-        $this->flash->success("user_overtime was created successfully");
+        $this->flash->success("Overtime was created successfully");
         return $this->response->redirect('userovertime/index');
     }
 
@@ -140,10 +171,16 @@ class UserOvertimeController extends ControllerBase
      */
     public function saveAction()
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
 
         if (!$this->request->isPost()) {
             $this->dispatcher->forward(array(
-                'controller' => "user_overtime",
+                'controller' => "userovertime",
                 'action' => 'index'
             ));
 
@@ -151,29 +188,24 @@ class UserOvertimeController extends ControllerBase
         }
 
         $id = $this->request->getPost("id");
-        $user_overtime = UserOvertime::findFirstByid($id);
+        $user_overtime = UserOvertime::findFirst($id);
 
         if (!$user_overtime) {
             $this->flash->error("user_overtime does not exist " . $id);
 
             $this->dispatcher->forward(array(
-                'controller' => "user_overtime",
+                'controller' => "userovertime",
                 'action' => 'index'
             ));
 
             return;
         }
 
-        $user_overtime->date = $this->request->getPost("date");
+        $user_overtime->date = strtotime($this->request->getPost("date"));
         $user_overtime->overtime_amount = $this->request->getPost("overtime_amount");
         $user_overtime->overtime_unit_id = $this->request->getPost("overtime_unit_id");
         $user_overtime->project_name = $this->request->getPost("project_name");
-        $user_overtime->user_id = $this->request->getPost("user_id");
-        $user_overtime->approved = $this->request->getPost("approved");
-        $user_overtime->approved_by = $this->request->getPost("approved_by");
-        $user_overtime->approve_date = $this->request->getPost("approve_date");
-        $user_overtime->created_at = $this->request->getPost("created_at");
-        $user_overtime->updated_at = $this->request->getPost("updated_at");
+        $user_overtime->updated_at = time();
         
 
         if (!$user_overtime->save()) {
@@ -183,7 +215,7 @@ class UserOvertimeController extends ControllerBase
             }
 
             $this->dispatcher->forward(array(
-                'controller' => "user_overtime",
+                'controller' => "userovertime",
                 'action' => 'edit',
                 'params' => array($user_overtime->id)
             ));
@@ -191,12 +223,9 @@ class UserOvertimeController extends ControllerBase
             return;
         }
 
-        $this->flash->success("user_overtime was updated successfully");
-
-        $this->dispatcher->forward(array(
-            'controller' => "user_overtime",
-            'action' => 'index'
-        ));
+        $this->flashSession->success("Overtime was updated successfully");
+        $this->response->redirect('userovertime');
+        return;
     }
 
     /**
@@ -206,6 +235,12 @@ class UserOvertimeController extends ControllerBase
      */
     public function deleteAction($id)
     {
+        if($this->session->get('user')->rule_id !== Rules::member())
+        {
+            $this->flashSession->error('You are not permitted!');
+            $this->response->redirect('users');
+            return;
+        }
         $user_overtime = UserOvertime::findFirstByid($id);
         if (!$user_overtime) {
             $this->flash->error("user_overtime was not found");

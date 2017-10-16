@@ -7,21 +7,21 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(array("userovertime", "Go Back")) ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(array("user_overtime", "Back")) ?></li>
         </ul>
     </nav>
 </div>
 
 <div class="page-header">
     <h1>
-        Create new overtime
+        Edit your overtime
     </h1>
 </div>
 
 <?php
     echo $this->tag->form(
         array(
-            "user_overtime/create",
+            "user_overtime/save",
             "autocomplete" => "off",
             "class" => "form-horizontal"
         )
@@ -31,24 +31,27 @@
 <div class="form-group">
     <label for="fieldDate" class="col-sm-2 control-label">Date</label>
     <div class="col-sm-10">
-        <input type="date" name="date" id="fieldDate" class="form-control">
+        <?php echo $this->tag->dateField(array("date", "size" => 30, "class" => "form-control", "id" => "fieldDate")) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldOvertimeAmount" class="col-sm-2 control-label">Amount Of Overtime</label>
+    <label for="fieldOvertimeAmount" class="col-sm-2 control-label">Overtime Amount</label>
     <div class="col-sm-10">
-        <input type="number" name="overtime_amount" id="fieldOvertimeAmount" class="form-control" min="1" max="24">
+        <?php echo $this->tag->textField(array("overtime_amount", "type" => "number", "class" => "form-control", "id" => "fieldOvertimeAmount")) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldOvertimeUnitId" class="col-sm-2 control-label">Unit Of Overtime</label>
+    <label for="fieldOvertimeUnitId" class="col-sm-2 control-label">Overtime Unit</label>
     <div class="col-sm-10">
         <select name="overtime_unit_id" id="fieldOvertimeUnitId" class="form-control">
-            <option value="0" disabled>---Enter Unit---</option>
             {% for unit in units %}
-                <option value="{{ unit.id }}">{{ unit.name }}</option>
+                {% if unit.id == defaultUnit %}
+                    <option selected value="{{ unit.id }}">{{ unit.name }}</option>
+                {% else %}
+                    <option value="{{ unit.id }}">{{ unit.name }}</option>
+                {% endif %}
             {% endfor %}
         </select>
     </div>
@@ -60,6 +63,8 @@
         <?php echo $this->tag->textField(array("project_name", "size" => 30, "class" => "form-control", "id" => "fieldProjectName")) ?>
     </div>
 </div>
+
+<input type="hidden" name="id" value="{{ id }}">
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

@@ -1,21 +1,22 @@
 <?php
 
-class SessionController extends ControllerBase
+/**
+ * Created by PhpStorm.
+ * User: Ash
+ * Date: 10/16/2017
+ * Time: 9:19 AM
+ */
+class TeamleaderController extends ControllerBase
 {
-
     public function beforeExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher)
     {
-        if($this->session->has('user') && $dispatcher->getActionName() !== 'logout')
+        if($dispatcher->getActionName() == 'register')
         {
-            $redirection = $this->session->get('user')->redirectMe();
-            $this->response->redirect($redirection);
-            return;
+            if($this->session->has('user') && $this->session->get('user')->rule_id === Rules::teamLeader())
+            {
+                return $this->response->redirect('users');
+            }
         }
-    }
-
-    public function indexAction()
-    {
-
     }
 
     public function registerAction()
@@ -28,7 +29,7 @@ class SessionController extends ControllerBase
         if(!$this->request->isPost())
         {
             $this->flashSession->error('Request Error');
-            $this->response->redirect('session/register');
+            $this->response->redirect('teamleader/register');
             return;
         }
 
@@ -40,23 +41,23 @@ class SessionController extends ControllerBase
             $user->password = $this->security->hash($this->request->getPost('password'));
             $user->name = $this->request->getPost('firstname').' '.$this->request->getPost('lastname');
             $user->team_id = $this->request->getPost('team');
-            $user->rule_id = Rules::member();
+            $user->rule_id = Rules::teamLeader();
 
             if(!$user->save())
             {
                 $this->flashSession->error('Error saving your data, please try again');
-                $this->response->redirect('session/register');
+                $this->response->redirect('teamleader/register');
                 return;
             }
 
             $this->flashSession->success('You registered successfully, please login');
-            $this->response->redirect('session/register');
+            $this->response->redirect('teamleader/register');
             return;
         }
         else
         {
             $this->flashSession->error('Email already exists!');
-            $this->response->redirect('session/register');
+            $this->response->redirect('teamleader/register');
             return;
         }
     }
@@ -66,7 +67,7 @@ class SessionController extends ControllerBase
         if(!$this->request->isPost())
         {
             $this->flashSession->error('Request Error');
-            $this->response->redirect('session/register');
+            $this->response->redirect('teamleader/register');
             return;
         }
         else
@@ -74,7 +75,7 @@ class SessionController extends ControllerBase
             if(!Users::exists($this->request->getPost('email')))
             {
                 $this->flashSession->error('Email doesn\'t exist!');
-                $this->response->redirect('session/register');
+                $this->response->redirect('teamleader/register');
                 return;
             }
             else
@@ -88,7 +89,7 @@ class SessionController extends ControllerBase
 
                 if($this->security->checkHash($this->request->getPost('password'), $user->password))
                 {
-                    if($user->rule_id === Rules::member())
+                    if($user->rule_id === Rules::teamLeader())
                     {
                         $this->session->set('user', $user);
                         $this->flashSession->success('You logged in successfully');
@@ -102,7 +103,7 @@ class SessionController extends ControllerBase
                     {
                         $this->security->hash(rand());
                         $this->flashSession->error('Invalid user rule');
-                        $this->response->redirect('session/register');
+                        $this->response->redirect('teamleader/register');
                         return;
                     }
                 }
@@ -110,31 +111,68 @@ class SessionController extends ControllerBase
                 {
                     $this->security->hash(rand());
                     $this->flashSession->error('Incorrect password!');
-                    $this->response->redirect('session/register');
+                    $this->response->redirect('teamleader/register');
                     return;
                 }
             }
         }
     }
 
-    public function logoutAction()
+    public function approveAction($overtime_id)
     {
-        $rule = $this->session->get('user')->rule_id;
-        $this->session->destroy();
-        $this->flashSession->success('Logout successful');
+        $overtime = UserOvertime::findFirst($overtime_id);
 
-        switch($rule)
+        if($overtime)
         {
-            case Rules::teamLeader():
-                $this->response->redirect('teamleader/register');
-                return;
-                break;
-            case Rules::member():
-                $this->response->redirect('session/register');
-                return;
-                break;
+            $overtime->approved = 1;
+            $overtime->approve_date = time();
+            $overtime->updated_at = time();
+            $overtime->approved_by = $this->session->get('user')->id;
+
+            if($overtime->save())
+            {
+                $this->flashSession->success('Overtime approved');
+                $this->response->redirect('userovertime/index/'.$overtime->user_id);
+            }
+            else
+            {
+                $this->flashSession->error('Error approving overtime, try again');
+                $this->response->redirect('userovertime/index/'.$overtime->user_id);
+            }
+        }
+        else
+        {
+            $this->flashSession->error('Overtime doesn\'t exist');
+            $this->response->redirect('usres');
         }
     }
 
-}
+    public function rejectAction($overtime_id)
+    {
+        $overtime = UserOvertime::findFirst($overtime_id);
 
+        if($overtime)
+        {
+            $overtime->approved = 0;
+            $overtime->approve_date = time();
+            $overtime->updated_at = time();
+            $overtime->approved_by = $this->session->get('user')->id;
+
+            if($overtime->save())
+            {
+                $this->flashSession->success('Overtime rejected');
+                $this->response->redirect('userovertime/index/'.$overtime->user_id);
+            }
+            else
+            {
+                $this->flashSession->error('Error rejecting overtime, try again');
+                $this->response->redirect('userovertime/index/'.$overtime->user_id);
+            }
+        }
+        else
+        {
+            $this->flashSession->error('Overtime doesn\'t exist');
+            $this->response->redirect('usres');
+        }
+    }
+}

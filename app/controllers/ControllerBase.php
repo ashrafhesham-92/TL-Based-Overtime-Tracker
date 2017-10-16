@@ -8,6 +8,8 @@ class ControllerBase extends Controller
     public function initialize()
     {
         $this->view->setTemplateBefore('main');
+        $this->view->teamLeaderRule = Rules::teamLeader();
+        $this->view->memberRule     = Rules::member();
     }
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)

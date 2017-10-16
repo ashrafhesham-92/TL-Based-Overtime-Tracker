@@ -6,12 +6,31 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 
 class UsersController extends ControllerBase
 {
+    private $permitted_rules = [];
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->permitted_rules[] = Rules::teamLeader();
+    }
     /**
      * Index action
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        if(in_array($this->session->get('user')->rule_id, $this->permitted_rules))
+        {
+            $this->persistent->parameters = null;
+
+            $this->view->users = Users::getTeamMembers($this->session->get('user')->team_id);
+
+        }
+        else
+        {
+            $this->flashSession->error('You are not permitted!');
+            return $this->response->redirect('userovertime');
+        }
+
     }
 
     /**

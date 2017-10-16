@@ -18,4 +18,20 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </body>
+    <script>
+        $(document).ready(function()
+        {
+            $(".successMessage").css({
+                'background-color':'lightgreen',
+                'height':'30px',
+                'padding-left':'512px'
+            });
+
+            $(".errorMessage").css({
+                'background-color':'indianred',
+                'height':'30px',
+                'padding-left':'512px'
+            });
+        });
+    </script>
 </html>
