@@ -6,6 +6,8 @@ define('APP_PATH', realpath('..'));
 
 try {
 
+    date_default_timezone_set('Africa/Cairo');
+
     /**
      * Read the configuration
      */
