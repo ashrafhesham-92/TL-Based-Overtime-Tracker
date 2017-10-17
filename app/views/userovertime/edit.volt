@@ -21,7 +21,7 @@
 <?php
     echo $this->tag->form(
         array(
-            "user_overtime/save",
+            "userovertime/save",
             "autocomplete" => "off",
             "class" => "form-horizontal"
         )
