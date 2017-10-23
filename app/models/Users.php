@@ -118,7 +118,7 @@ class Users extends \Phalcon\Mvc\Model
         switch($this->rule_id)
         {
             case Rules::member():
-                return 'userovertime';
+                return 'user_overtime';
                 break;
             case Rules::teamLeader():
                 return 'users';
