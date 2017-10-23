@@ -5,7 +5,7 @@
 {% if session.has('user') %}
     {% if session.get('user').rule_id == memberRule %}
         <h2>{{ session.get('user').team.name }} Team Member</h2>
-        <a href="{{ url('userovertime/new') }}" class="btn btn-primary">Submit Overtime</a>
+        <a href="{{ url('user_overtime/new') }}" class="btn btn-primary">Submit Overtime</a>
         <a href="{{ url('session/logout') }}" class="btn btn-warning">Logout</a>
     {% elseif session.get('user').rule_id == teamLeaderRule %}
         <h2>{{ session.get('user').team.name }} Team Leader</h2>
