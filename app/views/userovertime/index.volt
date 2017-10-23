@@ -36,7 +36,7 @@
     <tbody>
     {% for overtime in overtimes %}
         <tr>
-            <td style="width:100px;">
+            <td>
                 <?php echo date('Y-m-d', $overtime->date); ?>
             </td>
             <td style="width:200px;">{{ overtime.project_name }}</td>
