@@ -93,7 +93,7 @@ class UserOvertimeController extends ControllerBase
      * @param string $id
      */
     public function editAction($id)
-    {
+    {die($id);
         if($this->session->get('user')->rule_id !== Rules::member())
         {
             $this->flashSession->error('You are not permitted!');
