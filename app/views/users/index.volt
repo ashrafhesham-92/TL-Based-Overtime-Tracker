@@ -30,7 +30,7 @@
         <td>{{ user.rule.name }}</td>
         <td>{{ user.team.name }}</td>
         <td>
-            <a href="{{ url('userovertime/index/'~user.id) }}" class="btn btn-primary">
+            <a href="{{ url('user_overtime/index/'~user.id) }}" class="btn btn-primary">
                 <i class="fa fa-eye"> Overtime</i>
             </a>
 
