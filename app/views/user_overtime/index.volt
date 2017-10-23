@@ -68,7 +68,7 @@
                     <a class="btn btn-primary" href="{{ url('user_overtime/edit/'~overtime.id) }}">
                         <li title="edit" class="fa fa-pencil"></li>
                     </a>
-                    <a class="btn btn-danger delet" href="{{ url('user_overtime/delete/'~overtime.id) }}">
+                    <a class="btn btn-danger delete" href="{{ url('user_overtime/delete/'~overtime.id) }}">
                         <li title="delete" class="fa fa-trash"></li>
                     </a>
                 {% else %}
