@@ -36,33 +36,33 @@
     <tbody>
     {% for overtime in overtimes %}
         <tr>
-            <td>
+            <td style="width: 10%;">
                 <?php echo date('Y-m-d', $overtime->date); ?>
             </td>
-            <td style="width:200px;">{{ overtime.project_name }}</td>
-            <td style="max-width: 200px;">{{ overtime.details }}</td>
-            <td>
+            <td style="width: 10%;">{{ overtime.project_name }}</td>
+            <td style="width: 10%;">{{ overtime.details }}</td>
+            <td style="width: 10%;">
                 <?php echo date('Y-m-d H:i', $overtime->created_at); ?>
             </td>
-            <td>{{ overtime.overtime_amount }}</td>
-            <td>{{ overtime.unit.name }}</td>
-            <td>
+            <td style="width: 10%;">{{ overtime.overtime_amount }}</td>
+            <td style="width: 10%;">{{ overtime.unit.name }}</td>
+            <td style="width: 10%;">
                 {% if overtime.approved == 1 %}
                 <i class="fa fa-check"></i>
                 {% else %}
                 <i class="fa fa-close"></i>
                 {% endif %}
             </td>
-            <td>
+            <td style="width: 10%;">
                 {% if overtime.approvedBy %}
                     {{ overtime.approvedBy.name }}</td>
                 {% endif %}
-            <td>
+            <td style="width: 10%;">
                 {% if overtime.approve_date !== null %}
                 <?php echo date('Y-m-d H:i', $overtime->approve_date); ?>
                 {% endif %}
             </td>
-            <td>
+            <td style="width: 10%;">
             {% if session.get('user').rule_id === memberRule %}
                 {% if overtime.approved != 1 %}
                     <a class="btn btn-primary" href="{{ url('userovertime/edit/'~overtime.id) }}">
