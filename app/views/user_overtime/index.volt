@@ -68,7 +68,7 @@
                     <a class="btn btn-primary" href="{{ url('user_overtime/edit/'~overtime.id) }}">
                         <li title="edit" class="fa fa-pencil"></li>
                     </a>
-                    <a class="btn btn-danger" href="{{ url('user_overtime/delete/'~overtime.id) }}">
+                    <a class="btn btn-danger delet" href="{{ url('user_overtime/delete/'~overtime.id) }}">
                         <li title="delete" class="fa fa-trash"></li>
                     </a>
                 {% else %}
@@ -92,4 +92,13 @@
     {% endfor %}
     </tbody>
 </table>
+<script type="text/javascript">
+    $('.delete').click(function()
+    {
+        if(!confirm("Are you sure you want to delete overtime?"))
+        {
+            return false;
+        }
+    });
+</script>
 
