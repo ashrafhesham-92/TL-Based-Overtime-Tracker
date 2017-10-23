@@ -115,7 +115,6 @@ class UserOvertimeController extends ControllerBase
                 return;
             }
 
-            $this->view->test = 'test';
             $this->view->id = $user_overtime->id;
             $this->view->units = Units::find();
             $this->view->defaultUnit = $user_overtime->overtime_unit_id;
