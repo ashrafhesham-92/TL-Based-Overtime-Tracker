@@ -226,36 +226,23 @@ class UsersController extends ControllerBase
     {
         $user = Users::findFirstByid($id);
         if (!$user) {
-            $this->flash->error("user was not found");
-
-            $this->dispatcher->forward(array(
-                'controller' => "users",
-                'action' => 'index'
-            ));
-
+            $this->flashSession->error("user was not found");
+            $this->response->redirect('users/index');
             return;
         }
 
         if (!$user->delete()) {
 
             foreach ($user->getMessages() as $message) {
-                $this->flash->error($message);
+                $this->flashSession->error($message);
             }
-
-            $this->dispatcher->forward(array(
-                'controller' => "users",
-                'action' => 'search'
-            ));
-
+            $this->response->redirect('users/index');
             return;
         }
 
-        $this->flash->success("user was deleted successfully");
-
-        $this->dispatcher->forward(array(
-            'controller' => "users",
-            'action' => "index"
-        ));
+        $this->flashSession->success("user was deleted successfully");
+        $this->response->redirect('users/index');
+        return;
     }
 
 }

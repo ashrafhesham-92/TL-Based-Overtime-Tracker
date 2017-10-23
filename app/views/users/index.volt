@@ -33,8 +33,21 @@
             <a href="{{ url('userovertime/index/'~user.id) }}" class="btn btn-primary">
                 <i class="fa fa-eye"> Overtime</i>
             </a>
+
+            <a href="{{ url('users/delete/'~user.id) }}" class="btn btn-danger delete-user">
+                <i class="fa fa-trash"></i>
+            </a>
         </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+<script type="text/javascript">
+    $(".delete-user").click(function()
+    {
+        if(!confirm("Are you sure you want to delete user?"))
+        {
+            return false;
+        }
+    });
+</script>

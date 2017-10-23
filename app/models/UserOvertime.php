@@ -69,6 +69,8 @@ class UserOvertime extends \Phalcon\Mvc\Model
      */
     public $updated_at;
 
+    public $details;
+
     /**
      * Returns table name mapped in the model.
      *

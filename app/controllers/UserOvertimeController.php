@@ -122,7 +122,8 @@ class UserOvertimeController extends ControllerBase
             $this->tag->setDefault("date", date('Y-m-d', $user_overtime->date));
             $this->tag->setDefault("overtime_amount", $user_overtime->overtime_amount);
             $this->tag->setDefault("overtime_unit_id", $user_overtime->overtime_unit_id);
-            $this->tag->setDefault("project_name", $user_overtime->project_name);
+            $this->view->project_name = $user_overtime->project_name;
+            $this->view->details = $user_overtime->details;
 
         }
     }
@@ -151,6 +152,7 @@ class UserOvertimeController extends ControllerBase
         $user_overtime->user_id = $this->session->get('user')->id;
         $user_overtime->created_at = time();
         $user_overtime->updated_at = time();
+        $user_overtime->details = $this->request->getPost('details');
         
 
         if (!$user_overtime->save()) {
@@ -206,7 +208,7 @@ class UserOvertimeController extends ControllerBase
         $user_overtime->overtime_unit_id = $this->request->getPost("overtime_unit_id");
         $user_overtime->project_name = $this->request->getPost("project_name");
         $user_overtime->updated_at = time();
-        
+        $user_overtime->details = $this->request->getPost('details');
 
         if (!$user_overtime->save()) {
 

@@ -31,14 +31,14 @@
 <div class="form-group">
     <label for="fieldDate" class="col-sm-2 control-label">Date</label>
     <div class="col-sm-10">
-        <input type="date" name="date" id="fieldDate" class="form-control">
+        <input required type="date" name="date" id="fieldDate" class="form-control">
     </div>
 </div>
 
 <div class="form-group">
     <label for="fieldOvertimeAmount" class="col-sm-2 control-label">Amount Of Overtime</label>
     <div class="col-sm-10">
-        <input type="number" name="overtime_amount" id="fieldOvertimeAmount" class="form-control" min="1" max="24">
+        <input required type="number" name="overtime_amount" id="fieldOvertimeAmount" class="form-control" min="1">
     </div>
 </div>
 
@@ -57,7 +57,14 @@
 <div class="form-group">
     <label for="fieldProjectName" class="col-sm-2 control-label">Name Of Project</label>
     <div class="col-sm-10">
-        <?php echo $this->tag->textField(array("project_name", "size" => 30, "class" => "form-control", "id" => "fieldProjectName")) ?>
+        <input type="text" name="project_name" id="fieldProjectName" class="form-control" required size="30">
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldProjectName" class="col-sm-2 control-label">Details</label>
+    <div class="col-sm-10">
+        <textarea required name="details" id="details" class="form-control" cols="30" rows="5"></textarea>
     </div>
 </div>
 

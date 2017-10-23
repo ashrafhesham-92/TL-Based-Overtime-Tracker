@@ -23,6 +23,7 @@
     <tr>
         <th>date</th>
         <th>Project</th>
+        <th>Details</th>
         <th>Created At</th>
         <th>Overtime Amount</th>
         <th>Overtime Unit</th>
@@ -35,10 +36,11 @@
     <tbody>
     {% for overtime in overtimes %}
         <tr>
-            <td>
+            <td style="width:100px;">
                 <?php echo date('Y-m-d', $overtime->date); ?>
             </td>
-            <td>{{ overtime.project_name }}</td>
+            <td style="width:200px;">{{ overtime.project_name }}</td>
+            <td style="max-width: 200px;">{{ overtime.details }}</td>
             <td>
                 <?php echo date('Y-m-d H:i', $overtime->created_at); ?>
             </td>
