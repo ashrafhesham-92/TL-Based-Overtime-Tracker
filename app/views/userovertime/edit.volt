@@ -7,7 +7,7 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(array("userovertime", "Back")) ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(array("user_overtime", "Back")) ?></li>
         </ul>
     </nav>
 </div>
