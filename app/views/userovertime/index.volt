@@ -65,10 +65,10 @@
             <td style="width: 10%;">
             {% if session.get('user').rule_id === memberRule %}
                 {% if overtime.approved != 1 %}
-                    <a class="btn btn-primary" href="{{ url('userovertime/edit/'~overtime.id) }}">
+                    <a class="btn btn-primary" href="{{ url('user_overtime/edit/'~overtime.id) }}">
                         <li title="edit" class="fa fa-pencil"></li>
                     </a>
-                    <a class="btn btn-danger" href="{{ url('userovertime/delete/'~overtime.id) }}">
+                    <a class="btn btn-danger" href="{{ url('user_overtime/delete/'~overtime.id) }}">
                         <li title="delete" class="fa fa-trash"></li>
                     </a>
                 {% else %}
