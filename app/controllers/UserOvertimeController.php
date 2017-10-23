@@ -201,7 +201,7 @@ class UserOvertimeController extends ControllerBase
 
             return;
         }
-
+var_dump($this->request->getPost());die;
         $user_overtime->date = strtotime($this->request->getPost("date"));
         $user_overtime->overtime_amount = $this->request->getPost("overtime_amount");
         $user_overtime->overtime_unit_id = $this->request->getPost("overtime_unit_id");

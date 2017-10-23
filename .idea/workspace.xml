@@ -22,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UserovertimeController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserovertimeController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/UserovertimeController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.5">
-              <caret line="125" column="71" selection-start-line="125" selection-start-column="71" selection-end-line="125" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.39713773">
+              <caret line="203" column="40" selection-start-line="203" selection-start-column="40" selection-end-line="203" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -73,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edit.volt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="edit.volt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/userovertime/edit.volt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57781756">
+            <state vertical-scroll-proportion="-12.423077">
               <caret line="70" column="121" selection-start-line="70" selection-start-column="121" selection-end-line="70" selection-end-column="121" />
               <folding />
             </state>
@@ -117,8 +117,8 @@
         <option value="$PROJECT_DIR$/app/views/users/index.volt" />
         <option value="$PROJECT_DIR$/app/views/index.volt" />
         <option value="$PROJECT_DIR$/app/views/userovertime/index.volt" />
-        <option value="$PROJECT_DIR$/app/controllers/UserovertimeController.php" />
         <option value="$PROJECT_DIR$/app/views/userovertime/edit.volt" />
+        <option value="$PROJECT_DIR$/app/controllers/UserovertimeController.php" />
       </list>
     </option>
   </component>
@@ -782,18 +782,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/UserovertimeController.php">
+    <entry file="file://$PROJECT_DIR$/app/views/userovertime/edit.volt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.5">
-          <caret line="125" column="71" selection-start-line="125" selection-start-column="71" selection-end-line="125" selection-end-column="71" />
+        <state vertical-scroll-proportion="-12.423077">
+          <caret line="70" column="121" selection-start-line="70" selection-start-column="121" selection-end-line="70" selection-end-column="121" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/userovertime/edit.volt">
+    <entry file="file://$PROJECT_DIR$/app/controllers/UserovertimeController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57781756">
-          <caret line="70" column="121" selection-start-line="70" selection-start-column="121" selection-end-line="70" selection-end-column="121" />
+        <state vertical-scroll-proportion="0.39713773">
+          <caret line="203" column="40" selection-start-line="203" selection-start-column="40" selection-end-line="203" selection-end-column="40" />
           <folding />
         </state>
       </provider>
