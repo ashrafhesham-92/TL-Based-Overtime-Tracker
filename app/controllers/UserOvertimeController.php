@@ -140,7 +140,7 @@ class UserOvertimeController extends ControllerBase
         }
         if (!$this->request->isPost()) {
             $this->flash->error("Request Error!");
-            return $this->response->redirect('userovertime/new');
+            return $this->response->redirect('user_overtime/new');
         }
 
         $user_overtime = new UserOvertime();
@@ -159,11 +159,11 @@ class UserOvertimeController extends ControllerBase
                 $this->flash->error($message);
             }
 
-            return $this->response->redirect('userovertime/new');
+            return $this->response->redirect('user_overtime/new');
         }
 
         $this->flash->success("Overtime was created successfully");
-        return $this->response->redirect('userovertime/index');
+        return $this->response->redirect('user_overtime/index');
     }
 
     /**
@@ -181,7 +181,7 @@ class UserOvertimeController extends ControllerBase
 
         if (!$this->request->isPost()) {
             $this->dispatcher->forward(array(
-                'controller' => "userovertime",
+                'controller' => "user_overtime",
                 'action' => 'index'
             ));
 
@@ -195,7 +195,7 @@ class UserOvertimeController extends ControllerBase
             $this->flash->error("user_overtime does not exist " . $id);
 
             $this->dispatcher->forward(array(
-                'controller' => "userovertime",
+                'controller' => "user_overtime",
                 'action' => 'index'
             ));
 
@@ -216,7 +216,7 @@ class UserOvertimeController extends ControllerBase
             }
 
             $this->dispatcher->forward(array(
-                'controller' => "userovertime",
+                'controller' => "user_overtime",
                 'action' => 'edit',
                 'params' => array($user_overtime->id)
             ));
@@ -225,7 +225,7 @@ class UserOvertimeController extends ControllerBase
         }
 
         $this->flashSession->success("Overtime was updated successfully");
-        $this->response->redirect('userovertime');
+        $this->response->redirect('user_overtime');
         return;
     }
 
@@ -246,7 +246,7 @@ class UserOvertimeController extends ControllerBase
         if (!$user_overtime) {
             $this->flash->error("user_overtime was not found");
 
-            return $this->response->redirect('userovertime/index');
+            return $this->response->redirect('user_overtime/index');
         }
 
         if (!$user_overtime->delete()) {
@@ -255,12 +255,12 @@ class UserOvertimeController extends ControllerBase
                 $this->flash->error($message);
             }
 
-            return $this->response->redirect('userovertime/index');
+            return $this->response->redirect('user_overtime/index');
         }
 
         $this->flash->success("user_overtime was deleted successfully");
 
-        return $this->response->redirect('userovertime/index');
+        return $this->response->redirect('user_overtime/index');
     }
 
 }
