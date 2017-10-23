@@ -118,8 +118,7 @@ class UserOvertimeController extends ControllerBase
             $this->view->id = $user_overtime->id;
             $this->view->units = Units::find();
             $this->view->defaultUnit = $user_overtime->overtime_unit_id;
-            $this->view->project_name = $user_overtime->project_name;
-            $this->view->details = $user_overtime->details;
+            $this->view->overtime = $user_overtime;
 
             $this->tag->setDefault("date", date('Y-m-d', $user_overtime->date));
             $this->tag->setDefault("overtime_amount", $user_overtime->overtime_amount);
