@@ -7,7 +7,7 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(array("user_overtime", "Back")) ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(array("userovertime", "Back")) ?></li>
         </ul>
     </nav>
 </div>
@@ -60,7 +60,7 @@
 <div class="form-group">
     <label for="fieldProjectName" class="col-sm-2 control-label">Name Of Project</label>
     <div class="col-sm-10">
-        <input value="{{ overtime.project_name }}" type="text" name="project_name" id="fieldProjectName" class="form-control" required size="30">
+        <input value="{{ test }}" type="text" name="project_name" id="fieldProjectName" class="form-control" required size="30">
     </div>
 </div>
 
