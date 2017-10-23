@@ -60,14 +60,16 @@
 <div class="form-group">
     <label for="fieldProjectName" class="col-sm-2 control-label">Name Of Project</label>
     <div class="col-sm-10">
-        <input value="{{ project_name }}" type="text" name="project_name" id="fieldProjectName" class="form-control" required size="30">
+        <?php echo $this->tag->textField(array("project_name", "type" => "text", "class" => "form-control", "id" => "fieldProjectName")) ?>
+        <!--<input value="{{ project_name }}" type="text" name="project_name" id="fieldProjectName" class="form-control" required size="30">-->
     </div>
 </div>
 
 <div class="form-group">
     <label for="fieldProjectName" class="col-sm-2 control-label">Details</label>
     <div class="col-sm-10">
-        <textarea required name="details" id="details" class="form-control" cols="30" rows="5">{{ details }}</textarea>
+        <?php echo $this->tag->textArea(["details", "cols"=>30, "rows"=>5, "class"=>"form-control", "required"=>"required"]) ?>
+        {#<textarea required name="details" id="details" class="form-control" cols="30" rows="5">{{ details }}</textarea>#}
     </div>
 </div>
 
